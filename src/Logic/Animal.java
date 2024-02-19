@@ -5,25 +5,43 @@ import java.util.HashSet;
 
 public class Animal {
     private String nameAnimal;
-    private String typeAnimal;
+    private TypeAnimal typeAnimal;
     private LocalDate dateOfBirth;
     private HashSet<String> commands;
 
     public Animal(String nameAnimal, String typeAnimal, LocalDate dateOfBirth, HashSet<String> commands) {
         this.nameAnimal = nameAnimal;
-        this.typeAnimal = typeAnimal;
+        this.typeAnimal = new TypeAnimal(typeAnimal);
         this.dateOfBirth = dateOfBirth;
         this.commands = commands;
     }
 
-    @Override
-    public String toString() {
-        return "Animal" +
-                "name= '" + nameAnimal + '\'' +
-                ", type= '" + typeAnimal + '\'' +
-                ", Date of birth= " + dateOfBirth +
-                ", Execute commands= " + commands ;
+    public String getNameAnimal() {
+        return nameAnimal;
     }
 
-    public int
+    public void setNameAnimal(String nameAnimal) {
+        this.nameAnimal = nameAnimal;
+    }
+
+    @Override
+    public String toString() {
+        return "Animal: name - '" + nameAnimal + '\'' +
+                ", type - '" + typeAnimal + '\'' +
+                ", Date of birth - " + dateOfBirth +
+                ", Execute commands - " + commands ;
+    }
+
+//    public String getAge(){
+//        LocalDate currentDate = LocalDate.now();
+//
+//        //int years = ChronoUnit.YEARS.between(this.dateOfBirth, currentDate);
+//        //int months = ChronoUnit.MONTHS.between(this.dateOfBirth, currentDate) - years * 12;
+//
+//        return ("Разница в годах: " + years + ", в месяцах: " + months);
+//    }
+
+    public boolean addCommand(String command){
+        return this.commands.add(command);
+    }
 }
