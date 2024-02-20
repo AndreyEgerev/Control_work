@@ -16,6 +16,14 @@ public class Animal {
         this.commands = commands;
     }
 
+    public Animal(String nameAnimal, String typeAnimal, LocalDate dateOfBirth) {
+        this.nameAnimal = nameAnimal;
+        this.typeAnimal = new TypeAnimal(typeAnimal);
+        this.dateOfBirth = dateOfBirth;
+        this.commands = new HashSet<String>();
+        this.commands.add("sit");
+    }
+
     public String getNameAnimal() {
         return nameAnimal;
     }

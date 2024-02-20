@@ -25,7 +25,13 @@ public class Menu {
                 "5 - Выход");
         return InputUserData.getData();
     }
-
+    public String menuAddAnimal(){
+        menuMessage("Введите имя животного");
+        menuMessage("Введите тип животного");
+        menuMessage("Введите дату рождения");
+        menuMessage("Введите команды");
+        return InputUserData.getData();
+    }
     /**
      * Меню с перечнем животных
      * @param listAnimals экземпляр класса ListAnimals, содержащий список животных
@@ -34,6 +40,7 @@ public class Menu {
     public String menuAnimals(ListAnimals listAnimals){
         if (listAnimals != null){
             if (!listAnimals.getRegistry().isEmpty()){
+                menuMessage("Выберите животное");
                 menuMessage(listAnimals.toString());
             }
             menuMessage(listAnimals.size()+" - Возврат в предыдущее меню");
@@ -48,13 +55,21 @@ public class Menu {
      * @param animal экземпляр класса Animal, о котором выводится информация
      * @return выбор пользователя для дальнейших действий
      */
-    public String menuAnimal(Animal animal){
-        menuMessage(animal.toString());
-        menuMessage("1 - Обучить коммандам" +
-                "2 - Возврат в предыдущее меню");
-        return InputUserData.getData();
+    public String menuAnimal(Animal animal) {
+        if (animal != null) {
+            menuMessage(animal.toString());
+            menuMessage("1 - Обучить командам" +
+                    "2 - Возврат в предыдущее меню");
+            return InputUserData.getData();
+        }else{
+            throw new NullPointerException("Ошибка с данными о животном");
+        }
     }
 
+    public String menuAddCommand(){
+        menuMessage("Введите новую команду, можно ввести несколько через \',\'");
+        return InputUserData.getData();
+    }
     /**
      *
      * @param message - выводимое сообщение

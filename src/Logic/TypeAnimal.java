@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public class TypeAnimal {
     private String typeAnimal;
-    private static HashSet<String> listTypes;
+    private static HashSet<String> listTypes = new HashSet<String>();
 
     public TypeAnimal(String typeAnimal) {
         this.typeAnimal = typeAnimal.trim().toLowerCase();
