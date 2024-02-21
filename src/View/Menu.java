@@ -21,17 +21,21 @@ public class Menu {
                 "Выберите действие\n" +
                 "1 - Получить информацию о животных\n" +
                 "2 - Добавить информацию о животном\n" +
-                "3 - Загрузить информацию о животных из файла\n" +
-                "4 - Вывести количество животных в реестре\n" +
-                "5 - Выход");
+                "3 - Вывести количество животных в реестре\n" +
+                "4 - Выход");
         return InputUserData.getData();
     }
+
     public String menuAddAnimal(){
         menuMessage("Введите имя животного");
         menuMessage("Введите тип животного");
         menuMessage("Введите дату рождения");
         menuMessage("Введите команды");
         return InputUserData.getData();
+    }
+
+    public void menuCountAnimal(int countAnimal){
+        menuMessage("Животных в реестре - " + countAnimal);
     }
     /**
      * Меню с перечнем животных
@@ -44,19 +48,20 @@ public class Menu {
                 menuMessage("Выберите животное");
                 menuMessage(listAnimals.toString());
             }
-            menuMessage(listAnimals.size()+" - Возврат в предыдущее меню");
+            menuMessage((listAnimals.size()+1) + " - Возврат в предыдущее меню");
         }else {
             throw new NullPointerException("Ошибка со списком животных");
         }
         return InputUserData.getData();
     }
+
     public String menuCatalog(ListRegistry catalog){
         if (catalog != null){
             if (!catalog.getRegistry().isEmpty()){
                 menuMessage("Выберите перечень");
                 menuMessage(catalog.toString());
             }
-            menuMessage(catalog.size()+ " - Возврат в предыдущее меню");
+            menuMessage((catalog.size()+1) + " - Возврат в предыдущее меню");
         }else {
             throw new NullPointerException("Ошибка со списком животных");
         }
@@ -71,7 +76,7 @@ public class Menu {
     public String menuAnimal(Animal animal) {
         if (animal != null) {
             menuMessage(animal.toString());
-            menuMessage("1 - Обучить командам" +
+            menuMessage("1 - Обучить командам\n" +
                     "2 - Возврат в предыдущее меню");
             return InputUserData.getData();
         }else{

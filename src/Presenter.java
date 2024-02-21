@@ -1,4 +1,5 @@
 import Logic.Animal;
+import Logic.CountAnimal;
 import Logic.ListAnimals;
 import Logic.ListRegistry;
 import View.Menu;
@@ -10,14 +11,12 @@ public class Presenter {
     private Menu menu;
     private ListAnimals registry;
     private ListRegistry catalog;
-    private int menuLevel;
-
+    private CountAnimal countAnimal;
 
     public Presenter() {
         this.menu = new Menu();
         this.registry = new ListAnimals("animal");
         this.catalog = new ListRegistry("animal");
-        this.menuLevel = 0;
     }
 
     public void onRun(){
@@ -26,7 +25,6 @@ public class Presenter {
         String choiceUser;
         int choise;
         while (runFlag){
-            menuLevel = 0;
             choiceUser = menu.mainMenu();
             switch (choiceUser){
                 case "1" :
@@ -39,9 +37,6 @@ public class Presenter {
                     selectTree();
                     break;
                 case "4" :
-                    selectFour();
-                    break;
-                case "5" :
                     runFlag = false;
                     menu.menuMessage("Выход");
                     break;
@@ -68,50 +63,86 @@ public class Presenter {
         catalog.getRegistry().get(4).addAnimal(new Animal("Moses","donkey", "1440-03-10","walk,carry lyubava"));
         catalog.getRegistry().get(4).addAnimal(new Animal("Ia","donkey", "2015-04-15","walk"));
     }
-    private void selectOne(){
-        boolean choice = true;
-        int numberCatalog = 0, numberAnimal = 0;
+    private void selectOne() {
+        System.out.println("selectOne");
+        boolean choice = true, selectRight;
+        int numberCatalog = 0;
         String selectUser;
-        while (choice){
+        while (choice) {
+            selectRight = false;
             selectUser = menu.menuCatalog(catalog);
             try {
                 numberCatalog = Integer.parseInt(selectUser);
-                choice = false;
-            } catch (NumberFormatException e){
+                //choice = false;
+            } catch (NumberFormatException e) {
                 menu.menuMessage("Неправильный выбор");
             }
-            if (numberCatalog > catalog.size()+1 || numberCatalog < 1){
-                choice = true;
+            if (numberCatalog > catalog.size() + 1 || numberCatalog < 1) {
+                //choice = true;
                 menu.menuMessage("Выбран неверный номер");
-            } else choice = false;
-        }
-        if (numberCatalog == catalog.size()+1) return;
+            } //else choice = false;
+            else selectRight = true;
+        if (numberCatalog == catalog.size() + 1) return;
         numberCatalog--;
-        choice = true;
+        if (selectRight) selectViewAnimals(catalog.getRegistry().get(numberCatalog));
+        }
+    }
+
+    private void selectViewAnimals(ListAnimals listAnimals){
+        boolean choice = true, selectRight;
+        String selectUser;
+        int numberAnimal =0;
         while (choice){
-            selectUser = menu.menuAnimals(catalog.getRegistry().get(numberCatalog));
+            selectRight = false;
+            selectUser = menu.menuAnimals(listAnimals);
             try {
                 numberAnimal = Integer.parseInt(selectUser);
-                choice = false;
+                //choice = false;
             } catch (NumberFormatException e){
                 menu.menuMessage("Неправильный выбор");
             }
-            if (numberCatalog > catalog.size()+1 || numberCatalog < 1){
-                choice = true;
+            if (numberAnimal > listAnimals.size()+1 || numberAnimal < 1){
+                //choice = true;
                 menu.menuMessage("Выбран неверный номер");
-            } else choice = false;
+            } //else choice = false;
+            else selectRight = true;
+            if (numberAnimal == listAnimals.size()+1) return;
+            numberAnimal--;
+            if (selectRight) selectViewInfoAnimal(listAnimals.getRegistry().get(numberAnimal));
         }
+    }
 
+    private void selectViewInfoAnimal(Animal animal){
+        boolean choice = true;
+        while (choice) {
+            String selectUser = menu.menuAnimal(animal);
+            switch (selectUser) {
+                case "1":
+                    selectAddCommandAnimal(animal);
+                    break;
+                case "2":
+                    choice = false;
+                    break;
+                default:
+                    menu.menuMessage("Неверный ввод");
+            }
+        }
+    }
 
-
-
-
+    private void selectAddCommandAnimal(Animal animal){
+        String commands = menu.menuAddCommand();
+        String[] commandsParse = commands.split(",");
+            for (String command :
+                    commandsParse) {
+                animal.addCommand(command);
+            }
     }
 
     private void selectTwo(){
         menu.menuMessage("Option is not available");
     }
     private void selectTree(){
+        menu.menuCountAnimal(countAnimal.getCount());
         menu.menuMessage("Option is not available");
     }
     private void selectFour(){

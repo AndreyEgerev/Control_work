@@ -63,12 +63,17 @@ public class ListAnimals extends AbstractListAnimals{
             int indexAnimal = 1;
             for (Animal animal : this.registry
             ) {
-                listAnimalToView.append(indexAnimal).append(" - ").append(animal).append("\n");
+                if (indexAnimal == this.registry.size()){
+                    listAnimalToView.append(indexAnimal).append(" - ").append(animal.getNameAnimal());
+                }else {
+                    listAnimalToView.append(indexAnimal).append(" - ").append(animal.getNameAnimal()).append("\n");
+                }
                 indexAnimal++;
             }
         }
         return listAnimalToView.toString();
     }
+
     public int size(){
         if (super.get() != null){
             return super.get().size();

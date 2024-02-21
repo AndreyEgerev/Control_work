@@ -37,4 +37,25 @@ public class ListRegistry {
         return this.registry.size();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder listCatalogToView = new StringBuilder();
+        listCatalogToView.append(typeAnimal).append("\n");
+        if (this.registry.isEmpty()){
+            listCatalogToView.append("is empty");
+        }
+        else {
+            int indexAnimal = 1;
+            for (ListAnimals listAnimals : this.registry
+            ) {
+                if (indexAnimal == this.registry.size()){
+                    listCatalogToView.append(indexAnimal).append(" - ").append(listAnimals.getTypeAnimals());
+                }else{
+                    listCatalogToView.append(indexAnimal).append(" - ").append(listAnimals.getTypeAnimals()).append("\n");
+                }
+                indexAnimal++;
+            }
+        }
+        return listCatalogToView.toString();
+    }
 }
