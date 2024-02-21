@@ -2,6 +2,7 @@ package View;
 
 import Logic.Animal;
 import Logic.ListAnimals;
+import Logic.ListRegistry;
 
 public class Menu {
     ViewData view;
@@ -44,6 +45,18 @@ public class Menu {
                 menuMessage(listAnimals.toString());
             }
             menuMessage(listAnimals.size()+" - Возврат в предыдущее меню");
+        }else {
+            throw new NullPointerException("Ошибка со списком животных");
+        }
+        return InputUserData.getData();
+    }
+    public String menuCatalog(ListRegistry catalog){
+        if (catalog != null){
+            if (!catalog.getRegistry().isEmpty()){
+                menuMessage("Выберите перечень");
+                menuMessage(catalog.toString());
+            }
+            menuMessage(catalog.size()+ " - Возврат в предыдущее меню");
         }else {
             throw new NullPointerException("Ошибка со списком животных");
         }

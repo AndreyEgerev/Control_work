@@ -36,9 +36,6 @@ public class ListAnimals extends AbstractListAnimals{
     public ArrayList<Animal> getRegistry() {
         return registry;
     }
-//    public List<ListAnimals> getRegistry() {
-//        return super.get();
-//    }
 
     public void addAnimal(String animal){
 

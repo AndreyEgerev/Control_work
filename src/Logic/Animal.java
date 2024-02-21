@@ -23,6 +23,24 @@ public class Animal {
         this.commands = new HashSet<String>();
         this.commands.add("sit");
     }
+    public Animal(String nameAnimal, String typeAnimal, String dateOfBirth) {
+        this.nameAnimal = nameAnimal;
+        this.typeAnimal = new TypeAnimal(typeAnimal);
+        this.dateOfBirth = LocalDate.parse(dateOfBirth);
+        this.commands = new HashSet<String>();
+        this.commands.add("sit");
+    }
+    public Animal(String nameAnimal, String typeAnimal, String dateOfBirth, String commands) {
+        this.nameAnimal = nameAnimal;
+        this.typeAnimal = new TypeAnimal(typeAnimal);
+        this.dateOfBirth = LocalDate.parse(dateOfBirth);
+        this.commands = new HashSet<String>();
+        String[] commandsParse = commands.split(",");
+        for (String command :
+             commandsParse) {
+            this.commands.add(command.trim().toLowerCase());
+        }
+    }
 
     public String getNameAnimal() {
         return nameAnimal;
