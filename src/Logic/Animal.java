@@ -16,19 +16,16 @@ public class Animal {
         this.commands = commands;
     }
 
-    public Animal(String nameAnimal, String typeAnimal, LocalDate dateOfBirth) {
+    public Animal(String nameAnimal, String typeAnimal, LocalDate dateOfBirth, String commands) {
         this.nameAnimal = nameAnimal;
         this.typeAnimal = new TypeAnimal(typeAnimal);
         this.dateOfBirth = dateOfBirth;
         this.commands = new HashSet<String>();
-        this.commands.add("sit");
-    }
-    public Animal(String nameAnimal, String typeAnimal, String dateOfBirth) {
-        this.nameAnimal = nameAnimal;
-        this.typeAnimal = new TypeAnimal(typeAnimal);
-        this.dateOfBirth = LocalDate.parse(dateOfBirth);
-        this.commands = new HashSet<String>();
-        this.commands.add("sit");
+        String[] commandsParse = commands.split(",");
+        for (String command :
+                commandsParse) {
+            this.commands.add(command.trim().toLowerCase());
+        }
     }
 
     public Animal(String nameAnimal, String typeAnimal, String dateOfBirth, String commands) {
@@ -58,15 +55,6 @@ public class Animal {
                 ", Date of birth - " + dateOfBirth +
                 ", Execute commands - " + commands ;
     }
-
-//    public String getAge(){
-//        LocalDate currentDate = LocalDate.now();
-//
-//        //int years = ChronoUnit.YEARS.between(this.dateOfBirth, currentDate);
-//        //int months = ChronoUnit.MONTHS.between(this.dateOfBirth, currentDate) - years * 12;
-//
-//        return ("Разница в годах: " + years + ", в месяцах: " + months);
-//    }
 
     public boolean addCommand(String command){
         return this.commands.add(command);

@@ -1,22 +1,15 @@
-import Logic.Animal;
-import Logic.CountAnimal;
-import Logic.ListAnimals;
-import Logic.ListRegistry;
+import Logic.*;
 import View.Menu;
-
-import java.time.LocalDate;
-import java.util.HashSet;
 
 public class Presenter {
     private Menu menu;
-    private ListAnimals registry;
     private ListRegistry catalog;
     private CountAnimal countAnimal;
 
     public Presenter() {
         this.menu = new Menu();
-        this.registry = new ListAnimals("animal");
         this.catalog = new ListRegistry("animal");
+        this.countAnimal = new CountAnimal();
     }
 
     public void onRun(){
@@ -46,23 +39,31 @@ public class Presenter {
         }
     }
 
+    /**
+     * Тестовое наполнение реестра
+     */
     public void onStart(){
-        catalog.addRegistry("dog");
-        catalog.addRegistry("cat");
-        catalog.addRegistry("hamster");
-        catalog.addRegistry("horse");
-        catalog.addRegistry("donkey");
-        catalog.getRegistry().get(0).addAnimal(new Animal("Muxtar","dog", "2021-01-01","Paw,Run"));
-        catalog.getRegistry().get(0).addAnimal(new Animal("Butch","dog", "2019-12-10","Paw,Run"));
-        catalog.getRegistry().get(1).addAnimal(new Animal("Barsik","cat", "2021-01-01","meow"));
-        catalog.getRegistry().get(1).addAnimal(new Animal("Murka","cat", "2020-02-02","meow"));
-        catalog.getRegistry().get(1).addAnimal(new Animal("Murka","cat", "2020-02-02","meow"));
-        catalog.getRegistry().get(2).addAnimal(new Animal("Xoma","hamster", "2023-01-10","run,spin"));
-        catalog.getRegistry().get(3).addAnimal(new Animal("Julius","horse", "1456-01-10","trot,gallop,speak"));
-        catalog.getRegistry().get(3).addAnimal(new Animal("Thunder","horse", "2019-09-10","trot,gallop"));
-        catalog.getRegistry().get(4).addAnimal(new Animal("Moses","donkey", "1440-03-10","walk,carry lyubava"));
-        catalog.getRegistry().get(4).addAnimal(new Animal("Ia","donkey", "2015-04-15","walk"));
+        addNewAnimalNewType("dog","Muxtar, 01.01.2021, Paw,Run");
+        addNewAnimalExecType(0,"dog","Butch,10.12.2019,Paw,Run");
+        addNewAnimalNewType("cat","Barsik,01.01.2021,meow");
+        addNewAnimalExecType(1,"cat","Murka, 02.02.2020,meow");
+        addNewAnimalExecType(1,"cat","Markiza, 02.03.2021,meow");
+        addNewAnimalNewType("hamster","Xoma,10.01.2023,run,spin");
+        addNewAnimalNewType("horse","Julius, 10.01.1456,trot,gallop,speak");
+        addNewAnimalExecType(3,"horse","Spirit, 08.05.1864,trot,gallop");
+        addNewAnimalNewType("donkey","Moses, 03.10.1440, walk,carry lyubava");
+        addNewAnimalExecType(4,"donkey","Ia, 15.04.2015,walk");
+        addNewAnimalExecType(4,"donkey","Donkey, 07.11.2001,walk,sarcasm");
+
+        //catalog.getRegistry().get(4).addAnimal(new Animal("Donkey","donkey", "2010-11-07","walk,sarcasm"));
     }
+
+    /**
+     * Выбор первой опции меню
+     * просмотр информации по реестру животных,
+     * возможность просмотра информации о животном
+     * добавление новых команд
+     */
     private void selectOne() {
         System.out.println("selectOne");
         boolean choice = true, selectRight;
@@ -88,6 +89,10 @@ public class Presenter {
         }
     }
 
+    /**
+     * Просмотр информации о списке животных с дальнейшими командами
+     * @param listAnimals объект класса ListAnimal, содержащий информации о животных
+     */
     private void selectViewAnimals(ListAnimals listAnimals){
         boolean choice = true, selectRight;
         String selectUser;
@@ -112,6 +117,10 @@ public class Presenter {
         }
     }
 
+    /**
+     * Просмотр информации о конкретном животном с дальнейшими командами
+     * @param animal объект класса Animal
+     */
     private void selectViewInfoAnimal(Animal animal){
         boolean choice = true;
         while (choice) {
@@ -129,6 +138,10 @@ public class Presenter {
         }
     }
 
+    /**
+     * Добавление команд животному
+     * @param animal объект класса Animal, которому требуется добавить команды
+     */
     private void selectAddCommandAnimal(Animal animal){
         String commands = menu.menuAddCommand();
         String[] commandsParse = commands.split(",");
@@ -138,12 +151,84 @@ public class Presenter {
             }
     }
 
+    /**
+     * Выбор второй опции меню
+     * добавление животного в существующие списки или в новый
+     */
     private void selectTwo(){
-        menu.menuMessage("Option is not available");
+        String newAnimalType = menu.menuAddTypeAnimal();
+        String newAnimalDescription = menu.menuAddAnimalDescription();
+        if (checkExecTypeAnimal(newAnimalType)){
+            int numberListOnType = selectListAnimalOnType(newAnimalType);
+            if (numberListOnType != -1){
+                addNewAnimalExecType(numberListOnType, newAnimalType, newAnimalDescription);
+            }else {
+                addNewAnimalNewType(newAnimalType, newAnimalDescription);
+            }
+        }else {
+            addNewAnimalNewType(newAnimalType, newAnimalDescription);
+        }
     }
+
+    /**
+     * Проверка на существование типа животного
+     * @param typeAnimal проверяемый тип животного
+     * @return результат проверки true если есть/ false если нет
+     */
+    private boolean checkExecTypeAnimal(String typeAnimal){
+        for (String execType:
+             TypeAnimal.getListTypes()) {
+            if (typeAnimal.equals(execType)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Выбор требуемого индекса списка животных
+     * @param typeAnimal тип животного
+     * @return значение индекса списка животных с запрашиваемым типом
+     */
+    private int selectListAnimalOnType(String typeAnimal){
+        for (int i = 0 ; i < catalog.size(); i++){
+            if (catalog.getRegistry().get(i).getTypeAnimals().equals(typeAnimal)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Добавление нового животного нового типа
+     * @param type новый тип животного
+     * @param description описание животного
+     *                    вида "том, 23.02.20224, бег,прыг"
+     */
+    private void addNewAnimalNewType(String type, String description){
+        catalog.addRegistry(type);
+        int numberList = selectListAnimalOnType(type);
+        addNewAnimalExecType(numberList, type, description);
+    }
+
+    /**
+     * Добавление животного в существующий список
+     * @param numberList номел списка животных, куда необходимо добавить
+     * @param type тип животного
+     * @param description описание животного
+     *                    вида "том, 23.02.20224, бег,прыг"
+     */
+    private void addNewAnimalExecType(int numberList, String type, String description){
+        catalog.getRegistry().get(numberList).addAnimal(ParseService.parseData(type, description));
+        countAnimal.addCount();
+    }
+    /**
+     * Выбор третьей опции меню
+     * просмотр информации о количестве животных в реестре
+     */
     private void selectTree(){
         menu.menuCountAnimal(countAnimal.getCount());
-        menu.menuMessage("Option is not available");
+
     }
     private void selectFour(){
         menu.menuMessage("Option is not available");

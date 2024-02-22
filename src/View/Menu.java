@@ -4,6 +4,8 @@ import Logic.Animal;
 import Logic.ListAnimals;
 import Logic.ListRegistry;
 
+import java.util.ArrayList;
+
 public class Menu {
     ViewData view;
     InputUserData userData;
@@ -26,16 +28,23 @@ public class Menu {
         return InputUserData.getData();
     }
 
-    public String menuAddAnimal(){
-        menuMessage("Введите имя животного");
+    public String menuAddTypeAnimal(){
         menuMessage("Введите тип животного");
-        menuMessage("Введите дату рождения");
-        menuMessage("Введите команды");
         return InputUserData.getData();
     }
 
+    public String menuAddAnimalDescription(){
+        menuMessage("Введите имя животного, дату рождения в формате дд.мм.гггг и выполняемые команды через запятую\n" +
+                "Можно вводить несколько команд через запятую");
+        return InputUserData.getData();
+    }
+
+    /**
+     * Меню для вывода общего количества животных
+     * @param countAnimal общее количество животных
+     */
     public void menuCountAnimal(int countAnimal){
-        menuMessage("Животных в реестре - " + countAnimal);
+        menuMessage("Животных в реестре - " + countAnimal + "\n");
     }
     /**
      * Меню с перечнем животных
@@ -55,6 +64,11 @@ public class Menu {
         return InputUserData.getData();
     }
 
+    /**
+     * Меню с перечнем списков животных по типам
+     * @param catalog экземпляр класса ListRegistry, содержащий список с вложенными списками животных
+     * @return выбор пользователя для дальнейших действий
+     */
     public String menuCatalog(ListRegistry catalog){
         if (catalog != null){
             if (!catalog.getRegistry().isEmpty()){
@@ -84,6 +98,10 @@ public class Menu {
         }
     }
 
+    /**
+     * Меню добавления команд
+     * @return перечень команд для добавления
+     */
     public String menuAddCommand(){
         menuMessage("Введите новую команду, можно ввести несколько через \',\'");
         return InputUserData.getData();

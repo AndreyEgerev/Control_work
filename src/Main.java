@@ -21,18 +21,9 @@ import java.util.HashSet;
  */
 public class Main {
     public static void main(String[] args) {
-//        ListAnimals listAnimals = new ListAnimals("cat");
-//        HashSet<String> commands = new HashSet<>();
-//        commands.add("meow");
-//        commands.add("jump");
-//        Animal cat = new Animal("Tom","cat",LocalDate.now(), commands);
-//        System.out.println(cat);
-//        listAnimals.addAnimal(cat);
-//        System.out.println(listAnimals);
 
         Presenter program = new Presenter();
         program.onRun();
-
 
     }
 }

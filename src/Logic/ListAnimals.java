@@ -74,6 +74,10 @@ public class ListAnimals extends AbstractListAnimals{
         return listAnimalToView.toString();
     }
 
+    /**
+     * Вывод размрера списка, количества животных в списке
+     * @return количество животных в списке - размер списка
+     */
     public int size(){
         if (super.get() != null){
             return super.get().size();
