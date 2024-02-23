@@ -4,6 +4,7 @@ import java.io.Closeable;
 
 public class CountAnimal implements AutoCloseable{
     private int count;
+    private boolean closed = false;
 
 //    public CountAnimal() {
 //        this.count = 0;
@@ -16,7 +17,7 @@ public class CountAnimal implements AutoCloseable{
     public void setCount(int count) {
         this.count = count;
     }
-    public void addCount(){
+    public void addCount() throws RuntimeException{
         this.count++;
     }
     public int subtractCount(){
@@ -25,7 +26,12 @@ public class CountAnimal implements AutoCloseable{
     }
 
     @Override
-    public void close() throws Exception {
-
+    public void close() throws RuntimeException {
+        if (!closed){
+            closed =true;
+            if (count == 0){
+                throw new RuntimeException("Проблемы со счетчиком");
+            }
+        }
     }
 }

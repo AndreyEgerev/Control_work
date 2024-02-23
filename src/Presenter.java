@@ -218,8 +218,15 @@ public class Presenter {
      *                    вида "том, 23.02.20224, бег,прыг"
      */
     private void addNewAnimalExistsType(int numberList, String type, String description){
-        catalog.getRegistry().get(numberList).addAnimal(ParseService.parseData(type, description));
-        countAnimal.addCount();
+        try (countAnimal){
+            catalog.getRegistry().get(numberList).addAnimal(ParseService.parseData(type, description));
+            if (numberList >=0 && type != null && !type.isEmpty() && description != null && !description.isEmpty()){
+                countAnimal.addCount();
+            }
+
+        } catch (RuntimeException e) {
+            menu.menuMessage("Ошибка с добавлением " + e.getMessage());
+        }
     }
     /**
      * Выбор третьей опции меню
