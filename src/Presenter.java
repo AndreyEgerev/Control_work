@@ -2,9 +2,9 @@ import Logic.*;
 import View.Menu;
 
 public class Presenter {
-    private Menu menu;
-    private ListRegistry catalog;
-    private CountAnimal countAnimal;
+    private final Menu menu;
+    private final ListRegistry catalog;
+    private final CountAnimal countAnimal;
 
     public Presenter() {
         this.menu = new Menu();
@@ -16,7 +16,6 @@ public class Presenter {
         onStart();
         boolean runFlag = true;
         String choiceUser;
-        int choise;
         while (runFlag){
             choiceUser = menu.mainMenu();
             switch (choiceUser){
@@ -44,16 +43,16 @@ public class Presenter {
      */
     public void onStart(){
         addNewAnimalNewType("dog","Muxtar, 01.01.2021, Paw,Run");
-        addNewAnimalExecType(0,"dog","Butch,10.12.2019,Paw,Run");
+        addNewAnimalExistsType(0,"dog","Butch,10.12.2019,Paw,Run");
         addNewAnimalNewType("cat","Barsik,01.01.2021,meow");
-        addNewAnimalExecType(1,"cat","Murka, 02.02.2020,meow");
-        addNewAnimalExecType(1,"cat","Markiza, 02.03.2021,meow");
+        addNewAnimalExistsType(1,"cat","Murka, 02.02.2020,meow");
+        addNewAnimalExistsType(1,"cat","Markiza, 02.03.2021,meow");
         addNewAnimalNewType("hamster","Xoma,10.01.2023,run,spin");
         addNewAnimalNewType("horse","Julius, 10.01.1456,trot,gallop,speak");
-        addNewAnimalExecType(3,"horse","Spirit, 08.05.1864,trot,gallop");
+        addNewAnimalExistsType(3,"horse","Spirit, 08.05.1864,trot,gallop");
         addNewAnimalNewType("donkey","Moses, 03.10.1440, walk,carry lyubava");
-        addNewAnimalExecType(4,"donkey","Ia, 15.04.2015,walk");
-        addNewAnimalExecType(4,"donkey","Donkey, 07.11.2001,walk,sarcasm");
+        addNewAnimalExistsType(4,"donkey","Ia, 15.04.2015,walk");
+        addNewAnimalExistsType(4,"donkey","Donkey, 07.11.2001,walk,sarcasm");
 
         //catalog.getRegistry().get(4).addAnimal(new Animal("Donkey","donkey", "2010-11-07","walk,sarcasm"));
     }
@@ -122,15 +121,15 @@ public class Presenter {
      * @param animal объект класса Animal
      */
     private void selectViewInfoAnimal(Animal animal){
-        boolean choice = true;
-        while (choice) {
+        boolean runMenuFlag = true;
+        while (runMenuFlag) {
             String selectUser = menu.menuAnimal(animal);
             switch (selectUser) {
                 case "1":
                     selectAddCommandAnimal(animal);
                     break;
                 case "2":
-                    choice = false;
+                    runMenuFlag = false;
                     break;
                 default:
                     menu.menuMessage("Неверный ввод");
@@ -158,10 +157,10 @@ public class Presenter {
     private void selectTwo(){
         String newAnimalType = menu.menuAddTypeAnimal();
         String newAnimalDescription = menu.menuAddAnimalDescription();
-        if (checkExecTypeAnimal(newAnimalType)){
+        if (checkExistsTypeAnimal(newAnimalType)){
             int numberListOnType = selectListAnimalOnType(newAnimalType);
             if (numberListOnType != -1){
-                addNewAnimalExecType(numberListOnType, newAnimalType, newAnimalDescription);
+                addNewAnimalExistsType(numberListOnType, newAnimalType, newAnimalDescription);
             }else {
                 addNewAnimalNewType(newAnimalType, newAnimalDescription);
             }
@@ -175,10 +174,10 @@ public class Presenter {
      * @param typeAnimal проверяемый тип животного
      * @return результат проверки true если есть/ false если нет
      */
-    private boolean checkExecTypeAnimal(String typeAnimal){
-        for (String execType:
+    private boolean checkExistsTypeAnimal(String typeAnimal){
+        for (String existsType:
              TypeAnimal.getListTypes()) {
-            if (typeAnimal.equals(execType)){
+            if (typeAnimal.equals(existsType)){
                 return true;
             }
         }
@@ -208,7 +207,7 @@ public class Presenter {
     private void addNewAnimalNewType(String type, String description){
         catalog.addRegistry(type);
         int numberList = selectListAnimalOnType(type);
-        addNewAnimalExecType(numberList, type, description);
+        addNewAnimalExistsType(numberList, type, description);
     }
 
     /**
@@ -218,7 +217,7 @@ public class Presenter {
      * @param description описание животного
      *                    вида "том, 23.02.20224, бег,прыг"
      */
-    private void addNewAnimalExecType(int numberList, String type, String description){
+    private void addNewAnimalExistsType(int numberList, String type, String description){
         catalog.getRegistry().get(numberList).addAnimal(ParseService.parseData(type, description));
         countAnimal.addCount();
     }
@@ -230,7 +229,5 @@ public class Presenter {
         menu.menuCountAnimal(countAnimal.getCount());
 
     }
-    private void selectFour(){
-        menu.menuMessage("Option is not available");
-    }
+
 }

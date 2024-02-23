@@ -2,14 +2,17 @@ package Logic;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class ParseService {
-
+    /**
+     * Преобразование строки с описанием животного в экземпляр класса Animal
+     * @param type тип нового животного
+     * @param inputData данные нового животного
+     * @return экземпляр класса Animal
+     */
     public static Animal parseData(String type, String inputData){
         // строка вида "том, 23.02.20224, бег,прыг"
         String[] data = inputData.trim().split(",",3);
-        System.out.println(Arrays.toString(data));
         return new Animal(data[0].trim(),type,parseDate(data[1].trim()),data[2].trim().toLowerCase());
     }
 
@@ -39,6 +42,11 @@ public class ParseService {
         return inputDate.matches("^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$");
     }
 
+    /**
+     * Проверка формата даты
+     * @param inputDate строка с датой в формате гггг-мм-дд
+     * @return результат проверки
+     */
     private static boolean checkNormalDate(String inputDate){
         return inputDate.matches("^[0-9]{4}-[0-9]{2}-[0-9]{4}$");
     }
