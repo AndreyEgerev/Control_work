@@ -37,9 +37,6 @@ public class ListAnimals extends AbstractListAnimals{
         return registry;
     }
 
-    public void addAnimal(String animal){
-
-    }
     public  void addAnimal(Animal animal){
         this.registry.add(animal);
     }
