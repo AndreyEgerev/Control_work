@@ -65,22 +65,20 @@ public class Presenter {
      */
     private void selectOne() {
         System.out.println("selectOne");
-        boolean choice = true, selectRight;
+        boolean selectRight;
         int numberCatalog = 0;
         String selectUser;
-        while (choice) {
+        while (true) {
             selectRight = false;
-            selectUser = menu.menuCatalog(catalog);
+            selectUser = menu.menuCatalog(catalog.toString(), catalog.size());
             try {
                 numberCatalog = Integer.parseInt(selectUser);
-                //choice = false;
             } catch (NumberFormatException e) {
                 menu.menuMessage("Неправильный выбор");
             }
             if (numberCatalog > catalog.size() + 1 || numberCatalog < 1) {
-                //choice = true;
                 menu.menuMessage("Выбран неверный номер");
-            } //else choice = false;
+            }
             else selectRight = true;
         if (numberCatalog == catalog.size() + 1) return;
         numberCatalog--;
@@ -93,22 +91,20 @@ public class Presenter {
      * @param listAnimals объект класса ListAnimal, содержащий информации о животных
      */
     private void selectViewAnimals(ListAnimals listAnimals){
-        boolean choice = true, selectRight;
+        boolean selectRight;
         String selectUser;
         int numberAnimal =0;
-        while (choice){
+        while (true){
             selectRight = false;
-            selectUser = menu.menuAnimals(listAnimals);
+            selectUser = menu.menuAnimals(listAnimals.toString(), listAnimals.size());
             try {
                 numberAnimal = Integer.parseInt(selectUser);
-                //choice = false;
             } catch (NumberFormatException e){
                 menu.menuMessage("Неправильный выбор");
             }
             if (numberAnimal > listAnimals.size()+1 || numberAnimal < 1){
-                //choice = true;
                 menu.menuMessage("Выбран неверный номер");
-            } //else choice = false;
+            }
             else selectRight = true;
             if (numberAnimal == listAnimals.size()+1) return;
             numberAnimal--;
@@ -123,7 +119,7 @@ public class Presenter {
     private void selectViewInfoAnimal(Animal animal){
         boolean runMenuFlag = true;
         while (runMenuFlag) {
-            String selectUser = menu.menuAnimal(animal);
+            String selectUser = menu.menuAnimal(animal.toString());
             switch (selectUser) {
                 case "1":
                     selectAddCommandAnimal(animal);

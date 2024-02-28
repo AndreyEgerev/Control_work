@@ -51,13 +51,13 @@ public class Menu {
      * @param listAnimals экземпляр класса ListAnimals, содержащий список животных
      * @return выбор пользователя для дальнейших действий
      */
-    public String menuAnimals(ListAnimals listAnimals){
+    public String menuAnimals(String listAnimals, int size){
         if (listAnimals != null){
-            if (!listAnimals.getRegistry().isEmpty()){
+            if (!listAnimals.isEmpty()){
                 menuMessage("Выберите животное");
-                menuMessage(listAnimals.toString());
+                menuMessage(listAnimals);
             }
-            menuMessage((listAnimals.size()+1) + " - Возврат в предыдущее меню");
+            menuMessage((size+1) + " - Возврат в предыдущее меню");
         }else {
             throw new NullPointerException("Ошибка со списком животных");
         }
@@ -69,13 +69,13 @@ public class Menu {
      * @param catalog экземпляр класса ListRegistry, содержащий список с вложенными списками животных
      * @return выбор пользователя для дальнейших действий
      */
-    public String menuCatalog(ListRegistry catalog){
+    public String menuCatalog(String catalog, int size){
         if (catalog != null){
-            if (!catalog.getRegistry().isEmpty()){
+            if (!catalog.isEmpty()){
                 menuMessage("Выберите перечень");
-                menuMessage(catalog.toString());
+                menuMessage(catalog);
             }
-            menuMessage((catalog.size()+1) + " - Возврат в предыдущее меню");
+            menuMessage((size+1) + " - Возврат в предыдущее меню");
         }else {
             throw new NullPointerException("Ошибка со списком животных");
         }
@@ -87,9 +87,9 @@ public class Menu {
      * @param animal экземпляр класса Animal, о котором выводится информация
      * @return выбор пользователя для дальнейших действий
      */
-    public String menuAnimal(Animal animal) {
+    public String menuAnimal(String animal) {
         if (animal != null) {
-            menuMessage(animal.toString());
+            menuMessage(animal);
             menuMessage("1 - Обучить командам\n" +
                     "2 - Возврат в предыдущее меню");
             return InputUserData.getData();
